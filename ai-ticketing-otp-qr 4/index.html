@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: 'unsafe-inline'; img-src 'self' data:; frame-ancestors 'none'; base-uri 'none'; form-action 'self'">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Ticketing • Sign In</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container" style="max-width:520px">
+    <div class="header">
+      <div class="brand"><div class="logo"></div><strong>AI Ticketing</strong></div>
+      <div class="pills"><span class="pill">Organizer</span><span class="pill">Attendee</span></div>
+    </div>
+    <div class="card">
+      <h2>Secure Sign In</h2>
+      <p class="small">Demo-only. Passwords are not transmitted. Use the OTP push to approve this device.</p>
+      <form onsubmit="event.preventDefault(); sendOTP();">
+        <label class="label">Email</label>
+        <input class="input" type="email" name="email" autocomplete="username" required placeholder="you@company.com" />
+        <div class="row">
+          <div class="col" style="flex:1">
+            <label class="label">Password</label>
+            <input class="input" type="password" name="password" autocomplete="current-password" required placeholder="••••••••" />
+          </div>
+          <div class="col" style="width:160px">
+            <label class="label">Company Code</label>
+            <input class="input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" placeholder="123456" autocomplete="one-time-code"/>
+          </div>
+        </div>
+        <div class="row" style="justify-content:space-between;margin-top:10px">
+          <label class="row small"><input type="checkbox" required /> I trust this device</label>
+          <button class="btn" type="submit">Send OTP Push</button>
+        </div>
+      </form>
+    </div>
+    <div class="footer small">Security: CSP locked, no iframes, disabled external origins, autocomplete scoped. Rate-limit & IP checks belong on server.</div>
+  </div>
+
+  <!-- Simulated push notification / approval -->
+  <div id="pushToast" class="toast" role="alert" aria-live="polite">
+    <div><strong>New login attempt</strong><br/><span class="small">Location: Zurich, CH · Device: Chrome</span></div>
+    <hr/>
+    <div class="row">
+      <button class="btn ghost" onclick="denyOTP()">Deny</button>
+      <button class="btn" onclick="approveOTP()">Approve</button>
+    </div>
+  </div>
+
+  <!-- OTP entry dialog -->
+  <div class="container" style="max-width:520px;display:none" id="otpBox">
+    <div class="card">
+      <h3>Enter One-Time Passcode</h3>
+      <p class="small">We sent an OTP to your authenticator app. For demo, approving the push pre-fills it.</p>
+      <div class="row">
+        <input class="input" id="otpInput" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" placeholder="000000" style="text-align:center;letter-spacing:6px;font-weight:800"/>
+        <button class="btn" onclick="verifyOTP()">Verify</button>
+      </div>
+      <p class="small">Having trouble? <a href="#" onclick="sendOTP();return false;">Resend push</a></p>
+    </div>
+  </div>
+
+  <script>
+    let currentOTP = null;
+    function sendOTP(){
+      // Show simulated push toast
+      document.getElementById('pushToast').classList.add('show');
+      // Create a random 6-digit OTP (client-side demo only)
+      currentOTP = String(Math.floor(100000 + Math.random()*900000));
+      // Also show the box for manual entry
+      document.getElementById('otpBox').style.display = 'block';
+    }
+    function approveOTP(){
+      if(!currentOTP) sendOTP();
+      document.getElementById('otpInput').value = currentOTP;
+      document.getElementById('pushToast').classList.remove('show');
+    }
+    function denyOTP(){
+      document.getElementById('pushToast').classList.remove('show');
+      alert('Sign-in denied.');
+    }
+    function verifyOTP(){
+      const v = document.getElementById('otpInput').value.trim();
+      if(v && currentOTP && v === currentOTP){
+        // In a real app, redirect only after server validates and sets secure cookies
+        location.href = 'dashboard.html';
+      }else{
+        alert('Invalid code.');
+      }
+    }
+  </script>
+</body>
+</html>

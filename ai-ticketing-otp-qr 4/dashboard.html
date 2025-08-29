@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: 'unsafe-inline'; img-src 'self' data:; frame-ancestors 'none'; base-uri 'none'; form-action 'self'">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Organizer Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><div class="logo"></div><strong>AI Ticketing</strong></div>
+      <a class="active" href="dashboard.html">Dashboard</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="fraud.html">Fraud</a>
+      <a href="audience.html">Audience</a>
+      <a href="marketing.html">Marketing</a>
+      <a href="attendee.html">Attendee App</a>
+      <hr/>
+      <a href="index.html">Sign out</a>
+    </aside>
+    <main class="container">
+      <div class="header">
+        <div class="brand"><div class="logo"></div><h2 style="margin:0">Organizer Dashboard</h2></div>
+        <div class="row small"><span>Last login: 2025-08-29 14:32 CET</span> <span>|</span> <span>Device bound</span></div>
+      </div>
+
+      <div class="grid" style="grid-template-columns:repeat(3,1fr)">
+        <section class="card">
+          <h3>Real-Time Sales</h3>
+          <div class="row"><div class="kpi">3,842</div><span class="badge ok">+12% today</span></div>
+          <p class="small">Live events connected: 4</p>
+        </section>
+        <section class="card">
+          <h3>Attendance Forecast</h3>
+          <div class="row"><div class="kpi">~18,900</div><span class="badge warn">80–92% CI</span></div>
+          <p class="small">Updated 5 min ago</p>
+        </section>
+        <section class="card">
+          <h3>Fraud Risk</h3>
+          <div class="row"><div class="kpi">Low</div><span class="badge danger">12 suspicious</span></div>
+          <ul class="small">
+            <li>IP mismatch → high-risk region</li>
+            <li>Card velocity spike (6/min)</li>
+            <li>Resale patterns detected</li>
+          </ul>
+          <a class="btn ghost" href="fraud.html">Review</a>
+        </section>
+      </div>
+
+      <div class="grid" style="grid-template-columns:2fr 1fr">
+        <section class="card">
+          <h3>Security Controls</h3>
+          <ul class="small">
+            <li><strong>Enforce 2FA</strong> for all admins (OTP/TOTP or WebAuthn)</li>
+            <li><strong>Role-based access</strong> (RBAC) with least privilege</li>
+            <li><strong>IP allowlist</strong> for admin actions</li>
+            <li><strong>Device binding</strong> with rotating tokens</li>
+            <li><strong>Export signed audit log</strong></li>
+            <li><strong>Session controls</strong>: absolute & idle timeouts</li>
+          </ul>
+          <div class="row">
+            <a class="btn">Rotate API Key</a>
+            <a class="btn ghost">Export Audit Log</a>
+          </div>
+        </section>
+        <section class="card">
+          <h3>Session</h3>
+          <p class="small">Auto-logout after inactivity. Visible countdown appears 60s before.</p>
+          <div id="countdown" class="pill">--:--</div>
+          <div class="row" style="margin-top:10px">
+            <button class="btn" onclick="keepAlive()">Stay signed in</button>
+            <a class="btn ghost" href="index.html">Sign out</a>
+          </div>
+        </section>
+      </div>
+
+      <p class="footer">Demo UI. Wire buttons to your backend with CSRF protection, signed cookies (HttpOnly, Secure), and server-side validation.</p>
+    </main>
+  </div>
+
+  <!-- Session warning banner -->
+  <div id="sessBanner" class="banner" role="dialog" aria-live="polite">
+    <div class="banner__row">
+      <div><strong>Session expiring</strong> <span class="pill"><span id="sessCountdown">01:00</span></span></div>
+      <button class="btn" onclick="keepAlive()">Stay signed in</button>
+    </div>
+  </div>
+
+  <script>
+    // Minimal session timer demo (client-only)
+    const ABS_MIN=30, IDLE_MIN=10, WARN_SEC=60;
+    const KS={start:'sess.start',active:'sess.activity'};
+    const now=()=>Date.now();
+    const fmt=(ms)=>{const s=Math.max(0,Math.floor(ms/1000));const m=Math.floor(s/60),r=s%60;return (''+m).padStart(2,'0')+':'+(''+r).padStart(2,'0')};
+    function setLS(k,v){localStorage.setItem(k,String(v))}
+    function getLS(k){const v=localStorage.getItem(k);return v?Number(v):null}
+    if(!getLS(KS.start)) setLS(KS.start, now());
+    if(!getLS(KS.active)) setLS(KS.active, now());
+    ['click','keydown','mousemove','scroll','touchstart','focus'].forEach(evt=>addEventListener(evt,()=>setLS(KS.active, now()),{passive:true}));
+    function timeLeft(){const abs=getLS(KS.start)+ABS_MIN*60*1000;const idle=getLS(KS.active)+IDLE_MIN*60*1000;return Math.min(abs,idle)-now()}
+    function keepAlive(){setLS(KS.active, now()); document.getElementById('sessBanner').style.display='none'}
+    setInterval(()=>{
+      const left=timeLeft(); const c=document.getElementById('countdown'); if(c) c.textContent=fmt(left);
+      const banner=document.getElementById('sessBanner');
+      if(left<=0){location.href='session-expired.html'}
+      else if(left<=WARN_SEC*1000){banner.style.display='block'; document.getElementById('sessCountdown').textContent=fmt(left)}
+      else {banner.style.display='none'}
+    },1000);
+  </script>
+</body>
+</html>

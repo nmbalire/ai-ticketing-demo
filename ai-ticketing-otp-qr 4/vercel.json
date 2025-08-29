@@ -1,0 +1,5 @@
+{
+  "version": 2,
+  "builds": [{ "src": "ai-ticketing-otp-qr/**", "use": "@vercel/static" }],
+  "routes": [{ "src": "/(.*)", "dest": "ai-ticketing-otp-qr/$1" }]
+}

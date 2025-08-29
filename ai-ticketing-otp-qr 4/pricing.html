@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: 'unsafe-inline'; img-src 'self' data:; frame-ancestors 'none'; base-uri 'none'; form-action 'self'">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dynamic Pricing</title>
+  <link rel="stylesheet" href="styles.css" />
+  
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><div class="logo"></div><strong>AI Ticketing</strong></div>
+      <a class="" href="dashboard.html">Dashboard</a>
+      <a class="active" href="pricing.html">Pricing</a>
+      <a class="" href="fraud.html">Fraud</a>
+      <a class="" href="audience.html">Audience</a>
+      <a class="" href="marketing.html">Marketing</a>
+      <a href="attendee.html">Attendee App</a>
+      <hr/>
+      <a href="index.html">Sign out</a>
+    </aside>
+    <main class="container">
+      
+  <h2>Dynamic Pricing</h2>
+  <div class="card">
+    <div class="row"><div class="kpi">UGX 168,000</div><span class="badge ok">AI Suggested</span></div>
+    <div class="row"><label class="label">Demand factor</label><input type="range" min="0" max="1" step="0.01" value="0.72" style="width:260px"/></div>
+    <div class="row"><label class="label">Days to event</label><input type="range" min="0" max="90" step="1" value="14" style="width:260px"/></div>
+    <p class="small">Wire this slider to backend pricing endpoints.</p>
+  </div>
+
+    </main>
+  </div>
+</body>
+</html>

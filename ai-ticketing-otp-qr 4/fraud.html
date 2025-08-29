@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: 'unsafe-inline'; img-src 'self' data:; frame-ancestors 'none'; base-uri 'none'; form-action 'self'">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fraud Controls</title>
+  <link rel="stylesheet" href="styles.css" />
+  
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><div class="logo"></div><strong>AI Ticketing</strong></div>
+      <a class="" href="dashboard.html">Dashboard</a>
+      <a class="" href="pricing.html">Pricing</a>
+      <a class="active" href="fraud.html">Fraud</a>
+      <a class="" href="audience.html">Audience</a>
+      <a class="" href="marketing.html">Marketing</a>
+      <a href="attendee.html">Attendee App</a>
+      <hr/>
+      <a href="index.html">Sign out</a>
+    </aside>
+    <main class="container">
+      
+  <h2>Fraud Controls</h2>
+  <div class="grid" style="grid-template-columns:2fr 1fr">
+    <section class="card">
+      <h3>Signals</h3>
+      <ul class="small">
+        <li>Proxy/VPN detection</li>
+        <li>Card velocity & BIN risk</li>
+        <li>Chargeback clustering</li>
+        <li>Device fingerprint mismatch</li>
+        <li>Secondary market patterns</li>
+      </ul>
+      <div class="row">
+        <a class="btn">Block buyer</a>
+        <a class="btn ghost">Require re-verify</a>
+      </div>
+    </section>
+    <section class="card">
+      <h3>Policy</h3>
+      <label class="label">Auto-challenge high risk</label>
+      <div class="row"><input type="checkbox" checked/> <span>Require OTP for flagged purchases</span></div>
+      <label class="label">Geo rules</label>
+      <div class="row"><input type="checkbox" checked/> <span>Deny from embargoed regions</span></div>
+    </section>
+  </div>
+
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: 'unsafe-inline'; img-src 'self' data:; frame-ancestors 'none'; base-uri 'none'; form-action 'self'">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Choose Payment Method</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container" style="max-width:720px;text-align:center">
+    <h2>Select a Payment Method</h2>
+    <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(160px,1fr))">
+      <a class="card" href="attendee.html"><strong>Apple Pay</strong></a>
+      <a class="card" href="attendee.html"><strong>Visa</strong></a>
+      <a class="card" href="attendee.html"><strong>MasterCard</strong></a>
+      <a class="card" href="attendee.html"><strong>PayPal</strong></a>
+    </div>
+    <p class="small" style="margin-top:10px">Stub only. Integrate Stripe or your PSP and generate signed tickets upon success.</p>
+  </div>
+</body>
+</html>

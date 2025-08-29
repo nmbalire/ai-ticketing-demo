@@ -1,0 +1,3 @@
+# Netlify config: build-less static site
+[build]
+  publish = "ai-ticketing-otp-qr"
